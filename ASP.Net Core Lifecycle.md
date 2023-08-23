@@ -18,7 +18,7 @@ ASP.NET Core 支持依赖关系注入（DI）软件设计模式，该模式允�
 - Transient: 即使是同一个请求, 也会每次创建一个新的服务实例,是多线程安全问题中最安全最常见的选择
 ## 执行过程
 ### Program.cs
-*(core 7创建的会默认使用minimal只有中间件注册部分)*
+*(ASP.NET Core 7创建的会默认使用最小托管模型(minimal hosting model)统一`Startup.cs`到`Program.cs`,只有单个`Program.cs`文件)*
 ```
 public class Program  
 {  
