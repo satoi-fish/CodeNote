@@ -15,6 +15,50 @@
 ### 使用多线程
 `System.Threading.ThreadPool` 类为应用程序提供一个受系统管理的辅助线程池，从而使开发能够专注于应用程序任务，而非线程管理。
 如果有需要后台处理的短任务，托管的线程池则为利用多个线程的简便方法。 在Framework 4 及更高版本中使用线程池容易得多，因为可以创建在线程池线程上执行异步任务的` Task`和 `Task<TResult>`对象。
+#### Task的基本使用
+##### new Task
+```
+// 无参数  
+var task = new Task(()=>  
+{  
+    Console.WriteLine($"Current ThreadId={Environment.CurrentManagedThreadId}");  
+});  
+task.Start(); 
+
+// 有参数  
+var task = new Task((obj)=>  
+{  
+    Console.WriteLine($"Current ThreadId={Environment.CurrentManagedThreadId}, Current Content={obj}");  
+}, "Hello World"); 
+
+task.Start();
+```
+##### Task.Factory.StartNew
+```
+// 无参数
+var task = Task.Factory.StartNew(()=>
+{
+    Console.WriteLine($"Current ThreadId={Environment.CurrentManagedThreadId}");
+});
+// 有参
+var task = Task.Factory.StartNew((obj)=>
+{
+    Console.WriteLine($"Current ThreadId={Environment.CurrentManagedThreadId}, Current Content={obj}");
+}, "Hello World");
+```
+##### Task.Run
+```
+// 无参数
+var task = Task.Run(()=>
+{
+    Console.WriteLine($"Current ThreadId={Environment.CurrentManagedThreadId}");
+});
+// 有参
+var task = Task.Run((obj)=>
+{
+    Console.WriteLine($"Current ThreadId={Environment.CurrentManagedThreadId}, Current Content={obj}");
+}, "Hello World");
+```
 #### 线程池特征
 线程池线程是后台线程.每个线程均使用默认的堆栈大小位于多线程单元中.它是一旦有线程完成任务, 线程会返回到等待线程队列中, 这时便可以重复利用这个线程,达到无需为每个新任务创建新线程.
 想要使用线程池, 最简单的就是使用任务并行库(TPL), 任务并行库 (TPL) 是 `System.Threading`和 `System.Threading.Tasks`空间中的一组公共类型和 API。
