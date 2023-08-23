@@ -16,7 +16,7 @@
 > > - public/protected/internal 以 Pascal 方式命名
 > > - private 以下划线+Camel 方式命名
 > >
-> > ```csharp
+> > ```c#
 > >        public readonly int Field1;
 > >        public const int Field2 = 0;
 > >
