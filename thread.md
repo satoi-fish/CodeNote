@@ -19,14 +19,14 @@
 ##### new Task
 ```
 // 无参数  
-var task = new Task(()=>  
+var task = new Task(() =>  
 {  
     Console.WriteLine($"Current ThreadId={Environment.CurrentManagedThreadId}");  
 });  
 task.Start(); 
 
 // 有参数  
-var task = new Task((obj)=>  
+var task = new Task((obj) =>  
 {  
     Console.WriteLine($"Current ThreadId={Environment.CurrentManagedThreadId}, Current Content={obj}");  
 }, "Hello World"); 
@@ -36,12 +36,12 @@ task.Start();
 ##### Task.Factory.StartNew
 ```
 // 无参数
-var task = Task.Factory.StartNew(()=>
+var task = Task.Factory.StartNew(() =>
 {
     Console.WriteLine($"Current ThreadId={Environment.CurrentManagedThreadId}");
 });
 // 有参
-var task = Task.Factory.StartNew((obj)=>
+var task = Task.Factory.StartNew((obj) =>
 {
     Console.WriteLine($"Current ThreadId={Environment.CurrentManagedThreadId}, Current Content={obj}");
 }, "Hello World");
@@ -49,12 +49,12 @@ var task = Task.Factory.StartNew((obj)=>
 ##### Task.Run
 ```
 // 无参数
-var task = Task.Run(()=>
+var task = Task.Run(() =>
 {
     Console.WriteLine($"Current ThreadId={Environment.CurrentManagedThreadId}");
 });
 // 有参
-var task = Task.Run((obj)=>
+var task = Task.Run((obj) =>
 {
     Console.WriteLine($"Current ThreadId={Environment.CurrentManagedThreadId}, Current Content={obj}");
 }, "Hello World");
