@@ -34,8 +34,8 @@ public class Startup
 app.Run(async context => { await context.Response.WriteAsync("Hello from 2nd delegate."); });
 ```
 ## 中间件顺序
-下图显示了 ASP.NET Core MVC 和 Razor Pages 应用的完整请求处理管道。
-![image](https://github.com/satoi-fish/CodeNote/assets/81409285/ec6278c4-0899-4899-86fc-d99375936300)
+下图显示了 ASP.NET Core MVC 和 Razor Pages 应用的完整请求处理管道。<br/>
+![image](https://github.com/satoi-fish/CodeNote/assets/81409285/90ab3db3-4fed-4bb3-9b05-3bd7782db22c)
 <br/>向 `Startup.Configure` 方法添加中间件组件的顺序定义了针对请求调用这些组件的顺序，以及响应的相反顺序。 此顺序对于安全性、性能和功能至关重要. 上述为典型的建议顺序.
 ```
 public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
