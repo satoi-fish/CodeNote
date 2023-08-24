@@ -3,8 +3,8 @@
 使用 `RunMap` 和 `Use`扩展方法来配置请求委托。 可将一个单独的请求委托并行指定为匿名方法（称为并行中间件），或在可重用的类中对其进行定义。 这些可重用的类和并行匿名方法即为中间件，也叫中间件组件。
 请求管道中的每个组件负责调用管道中的下一个组件,如果没有调用下一个则为管道短路, 被称为‘终端中间件’.
 ## 使用 IApplicationBuilder 创建中间件管道
-(图)
-每个委托均可在下一个委托前后执行操作。 应尽早在管道中调用异常处理委托，这样它们就能捕获在管道的后期阶段发生的异常。
+![image](https://github.com/satoi-fish/CodeNote/assets/81409285/f8b9c93c-c149-4252-af56-4db270fed577)
+<br/>每个委托均可在下一个委托前后执行操作。 应尽早在管道中调用异常处理委托，这样它们就能捕获在管道的后期阶段发生的异常。
 用 `Use`将多个请求委托链接在一起形成一个管道, `next` 参数表示管道中的下一个委托。 可通过不调用 next 参数使管道短路。 
 ```
 public class Startup
@@ -31,12 +31,12 @@ public class Startup
 > - 可能损坏正文格式。 例如，向 CSS 文件中写入 HTML 页脚。
 `Run`委托是作为终端用于终止管道, 所以其不会收到`next`参数.
 ```
-==app.Run(async context => { await context.Response.WriteAsync("Hello from 2nd delegate."); });
+app.Run(async context => { await context.Response.WriteAsync("Hello from 2nd delegate."); });
 ```
 ## 中间件顺序
 下图显示了 ASP.NET Core MVC 和 Razor Pages 应用的完整请求处理管道。
-(图)
-向 `Startup.Configure` 方法添加中间件组件的顺序定义了针对请求调用这些组件的顺序，以及响应的相反顺序。 此顺序对于安全性、性能和功能至关重要. 上述为典型的建议顺序.
+![image](https://github.com/satoi-fish/CodeNote/assets/81409285/ec6278c4-0899-4899-86fc-d99375936300)
+<br/>向 `Startup.Configure` 方法添加中间件组件的顺序定义了针对请求调用这些组件的顺序，以及响应的相反顺序。 此顺序对于安全性、性能和功能至关重要. 上述为典型的建议顺序.
 ```
 public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 {
