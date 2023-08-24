@@ -96,3 +96,29 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 > 7. 用于授权用户访问安全资源的授权中间件 ([UseAuthorization](https://learn.microsoft.com/zh-cn/dotnet/api/microsoft.aspnetcore.builder.authorizationappbuilderextensions.useauthorization))。
 > 8. 会话中间件 ([UseSession](https://learn.microsoft.com/zh-cn/dotnet/api/microsoft.aspnetcore.builder.sessionmiddlewareextensions.usesession)) 建立和维护会话状态。 如果应用使用会话状态，请在 Cookie 策略中间件之后和 MVC 中间件之前调用会话中间件。
 > 9. 用于将 Razor Pages 终结点添加到请求管道的终结点路由中间件（带有 [MapRazorPages](https://learn.microsoft.com/zh-cn/dotnet/api/microsoft.aspnetcore.builder.razorpagesendpointroutebuilderextensions.maprazorpages) 的 [UseEndpoints](https://learn.microsoft.com/zh-cn/dotnet/api/microsoft.aspnetcore.builder.endpointroutingapplicationbuilderextensions.useendpoints)）。
+## 对中间件管道进行分支
+`Map`可以扩展创建管道分支, 它基于给定的路径创建分支.
+```
+app.Map("/map1",  
+    (IApplicationBuilder app) => app.Run(async context =>  
+    {  
+        await context.Response.WriteAsync("Map Test 2");  
+    }));
+// 在`localhost:1234/map1`会响应`Map Test 2`
+
+app.Map("/map1",  
+    (app) =>  
+        app.Map("/map2", app =>  
+            app.Run(async context => { await context.Response.WriteAsync("Map Test 2"); })));
+// 还能嵌套
+
+app.Map("/map1/map3",  
+    (IApplicationBuilder app) => app.Run(async context =>  
+    {  
+        await context.Response.WriteAsync("Map Test 2");  
+    }));
+// 以及匹配多个段
+
+app.MapWhen(context => context.Request.Query.ContainsKey("branch"), HandleBranch);
+// 也可以使用MapWhen匹配存在某个字符串是否存在
+```
