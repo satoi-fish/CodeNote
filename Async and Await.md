@@ -29,8 +29,8 @@ static void ConsoleSync()
     }
 }
 ```
-![[Pasted image 20230824112646.png]]
-可以看到两个互不依赖的方法调用的时候如果同步进行就会显示1再显示2,而异步方法会同步进行.
+![image](https://github.com/satoi-fish/CodeNote/assets/81409285/9ec26732-06b6-4b37-a2bf-368637ef826a)
+<br/>可以看到两个互不依赖的方法调用的时候如果同步进行就会显示1再显示2,而异步方法会同步进行.
 如果相互依赖的两个方法执行时,就会对后续代码进行阻塞,直到执行完前面的代码.
 ```
 static void Main(string[] args)  
@@ -69,8 +69,8 @@ static void ConsoleSync()
     }  
 }
 ```
-![[Pasted image 20230824114235.png]]
-可以看到如果是在await运算符之后的代码会在其运算完毕之后才会执行,也就是说它是将原本异步的方法与同步的方法统一成了同步的执行顺序.
+![image](https://github.com/satoi-fish/CodeNote/assets/81409285/45036c28-bcab-4b02-b0ed-effa6e61b639)
+<br/>可以看到如果是在await运算符之后的代码会在其运算完毕之后才会执行,也就是说它是将原本异步的方法与同步的方法统一成了同步的执行顺序.
 ##   异步方法的运行机制
 ![异步控制流的跟踪导航](https://learn.microsoft.com/zh-cn/dotnet/csharp/asynchronous-programming/media/task-asynchronous-programming-model/navigation-trace-async-program.png)
 关系图中的数字对应于以下步骤，在调用方法调用异步方法时启动。
