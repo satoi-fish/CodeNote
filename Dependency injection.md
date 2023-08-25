@@ -72,7 +72,9 @@ public class ValuesController : ControllerBase
     }  
 }
 ```
+在使用依赖注入方式时, 解决了传统方式耦合度, 如果后期变更实现, 只要在 services.AddTransient<IUserInfoService, UserInfoMongoService>();变更成UserInfoMongoService即可
 
+在所有使用IUserInfoService的地方无须做任何改动；而且可以非常简单的设置生命周期.
 > ## 使用扩展方法注册服务组
 > 
 > ASP.NET Core 框架使用一种约定来注册一组相关服务。 约定使用单个 `Add{GROUP_NAME}` 扩展方法来注册该框架功能所需的所有服务。 例如，[AddControllers](https://learn.microsoft.com/zh-cn/dotnet/api/microsoft.extensions.dependencyinjection.mvcservicecollectionextensions.addcontrollers) 扩展方法会注册 MVC 控制器所需的服务。
