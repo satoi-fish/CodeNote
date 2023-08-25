@@ -48,7 +48,7 @@ public class ValuesController : ControllerBase
     }  
 }
 ```
-在传统方式中, 获取用户的服务类直接用new的方式, 从中可以发现代码耦合度太高, 非常不利于维护，在所有使用到IUserInfoService的地方都要new出对象, 如果后期更改UserInfoService的实现, 换成UserInfoMongoService, 那么替换工作就会很繁琐也就是需要解耦.
+在传统方式中, 获取用户的服务类直接用new的方式, 从中可以发现代码耦合度太高, 非常不利于维护，在所有使用到IUserInfoService的地方都要new出对象, 如果后期更改UserInfoService的实现, 换成UserInfoMongoService, 那么替换工作就会很繁琐也就是需要解耦.<br/>
 **依赖注入方式**
 ```
 public void ConfigureServices(IServiceCollection services)  
