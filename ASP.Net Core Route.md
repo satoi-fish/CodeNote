@@ -20,7 +20,7 @@ routeBuilder.MapRoute("Default", "{controller=Home}/{action=Index}/{id?}");
 
 打开并运行 HelloWorld 项目，然后在浏览器中访问应用程序。当我们访问 `/about` 时，它会产生下面的输出
 
-![](https://www.twle.cn/static/i/aspnetcore/aspnetcore_routing_5.png?1)
+![image](https://github.com/satoi-fish/CodeNote/assets/81409285/ec53a49f-e371-4ad1-94cd-e3c817567fc4)
 
 我们想要的是，当我们访问 `/about` 时，应用程序应该调用 `AboutController` 的 `Phone` 方法
 
