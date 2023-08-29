@@ -101,7 +101,8 @@ public IWebHost Build()
 其主要定义了三个方法，第一个方法用来创建请求上下文；第二个方法用来处理请求；第三个方法用来释放上下文。而至于请求上下文，是用来携带请求和返回响应的核心参数，其贯穿与整个请求处理管道之中。ASP.NET Core中提供了默认的实现`HostingApplication`，其构造函数接收一个`RequestDelegate _application`（也就是链接中间件形成的处理管道）用来处理请求。
 
 ```csharp
-var httpContextFactory = _applicationServices.GetRequiredService<IHttpContextFactory>();var hostingApp = new HostingApplication(_application, _logger, diagnosticSource, httpContextFactory);
+var httpContextFactory = _applicationServices.GetRequiredService<IHttpContextFactory>();
+var hostingApp = new HostingApplication(_application, _logger, diagnosticSource, httpContextFactory);
 ```
 
 ### 启动IHostedService
