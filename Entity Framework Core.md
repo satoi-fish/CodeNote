@@ -323,3 +323,21 @@ public class PostTag
 ```
 
 > EF CORE只支持部分类型的自动操作，详见[Default Values](https://docs.microsoft.com/zh-cn/ef/core/modeling/relational/default-values)
+
+## 更改跟踪
+每个 [DbContext](https://learn.microsoft.com/zh-cn/dotnet/api/microsoft.entityframeworkcore.dbcontext) 实例跟踪对实体所做的更改。 在调用 [SaveChanges](https://learn.microsoft.com/zh-cn/dotnet/api/microsoft.entityframeworkcore.dbcontext.savechanges) 时，这些跟踪的实体会相应地驱动对数据库的更改。
+**跟踪实体** : 
+- 从针对数据库执行的查询返回
+- 通过 `Add`、`Attach`、`Update` 或类似方法显示附加到 DbContext
+- 检测为连接到现有跟踪实体的新实体
+**不被跟踪的实体实例** : 
+- DbContext 已释放
+- 清除更改跟踪器
+- 显式拆离实体
+
+根据上述而言, DbContext 的生存期应为：
+1. 创建 DbContext 实例
+2. 跟踪某些实体
+3. 对实体进行一些更改
+4. 调用 SaveChanges 以更新数据库
+5. 释放 DbContext 实例
