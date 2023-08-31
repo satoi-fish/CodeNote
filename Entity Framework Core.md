@@ -188,26 +188,26 @@ protected override void OnModelCreating(ModelBuilder modelBuilder)
 ```csharp
 class MyContext : DbContext
 {
-	public DbSet<Blog> Blogs { get; set; }
+    public DbSet<Blog> Blogs { get; set; }
 
-	protected override void OnModelCreating(ModelBuilder modelBuilder)
-	{
-		modelBuilder.Entity<Blog>()
-			.HasDiscriminator<string>("blog_type")
-			.HasValue<Blog>("blog_base")
-			.HasValue<RssBlog>("blog_rss");
-	}
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Blog>()
+            .HasDiscriminator<string>("blog_type")
+            .HasValue<Blog>("blog_base")
+            .HasValue<RssBlog>("blog_rss");
+    }
 }
 
 public class Blog
 {
-	public int BlogId { get; set; }
-	public string Url { get; set; }
+    public int BlogId { get; set; }
+    public string Url { get; set; }
 }
 
 public class RssBlog : Blog
 {
-	public string RssUrl { get; set; }
+    public string RssUrl { get; set; }
 }
 ```
 > 观察OnModelCreating方法，HasDiscriminator提供修改标识列名的功能，HasValue提供新增或修改实体时，根据实体类型将不同的标识自动写入标识列中。如新增Blog时，blog_type列将写入blog_base字符串，新增RssBlog时，blog_type列将写入blog_rss字符串。
