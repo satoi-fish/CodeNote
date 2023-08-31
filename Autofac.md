@@ -76,8 +76,8 @@ builder.RegisterAssemblyTypes(service, iservice)
 
 然后在构造函数中接收实例: 
 ```
-public readonly ISayHelloService sayHelloService;  
-public readonly IUseAutofacService useAutofacService;  
+private readonly ISayHelloService sayHelloService;  
+private readonly IUseAutofacService useAutofacService;  
   
 public HelloController(ISayHelloService _sayHelloService, IUseAutofacService _useAutofacService)  
 {  
