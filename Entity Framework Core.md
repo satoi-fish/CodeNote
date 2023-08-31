@@ -217,112 +217,111 @@ public class RssBlog : Blog
 ```csharp
 public class MyContext : DbContext
 {
-	public MyContext(DbContextOptions<MyContext> options) : base(options)
-	{
-	}
+    public MyContext(DbContextOptions<MyContext> options) : base(options)
+    {
+    }
 
-	public DbSet<User> Users { get; set; }
-	public DbSet<UserAccount> UserAccounts { get; set; }
-	public DbSet<Blog> Blogs { get; set; }
-	public DbSet<Post> Posts { get; set; }
-	public DbSet<PostTag> PostTags { get; set; }
-	public DbSet<Tag> Tags { get; set; }
+    public DbSet<User> Users { get; set; }
+    public DbSet<UserAccount> UserAccounts { get; set; }
+    public DbSet<Blog> Blogs { get; set; }
+    public DbSet<Post> Posts { get; set; }
+    public DbSet<PostTag> PostTags { get; set; }
+    public DbSet<Tag> Tags { get; set; }
 
-	protected override void OnModelCreating(ModelBuilder modelBuilder)
-	{
-		// Blog与Post之间为 1 - N 关系
-		modelBuilder.Entity<Post>()
-			.HasOne(p => p.Blog)
-			.WithMany(b => b.Posts)
-			.HasForeignKey(p => p.BlogId)
-			// 使用HasConstraintName方法配置外键名称
-			.HasConstraintName("ForeignKey_Post_Blog")
-			.IsRequired();
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        // Blog与Post之间为 1 - N 关系
+        modelBuilder.Entity<Post>()
+            .HasOne(p => p.Blog)
+            .WithMany(b => b.Posts)
+            .HasForeignKey(p => p.BlogId)
+            // 使用HasConstraintName方法配置外键名称
+            .HasConstraintName("ForeignKey_Post_Blog")
+            .IsRequired();
 
-		// User与UserAccount之间为 1 - 1 关系
-		modelBuilder.Entity<UserAccount>()
-			.HasKey(c => c.UserAccountId);
+        // User与UserAccount之间为 1 - 1 关系
+        modelBuilder.Entity<UserAccount>()
+            .HasKey(c => c.UserAccountId);
 
-		modelBuilder.Entity<UserAccount>()
-			.HasOne(c => c.User)
-			.WithOne(c => c.UserAccount)
-			.HasForeignKey<UserAccount>(c => c.UserAccountId)
-			.IsRequired();
+        modelBuilder.Entity<UserAccount>()
+            .HasOne(c => c.User)
+            .WithOne(c => c.UserAccount)
+            .HasForeignKey<UserAccount>(c => c.UserAccountId)
+            .IsRequired();
 
-		// User与Blog之间为 1 - N 关系
-		modelBuilder.Entity<Blog>()
-			.HasOne(b => b.User)
-			.WithMany(c => c.Blogs)
-			.HasForeignKey(c => c.UserId)
-			.IsRequired();
+        // User与Blog之间为 1 - N 关系
+        modelBuilder.Entity<Blog>()
+            .HasOne(b => b.User)
+            .WithMany(c => c.Blogs)
+            .HasForeignKey(c => c.UserId)
+            .IsRequired();
 
-		// Post与Tag之间为 N - N 关系
-		modelBuilder.Entity<PostTag>()
-			.HasKey(t => new {t.PostId, t.TagId});
+        // Post与Tag之间为 N - N 关系
+        modelBuilder.Entity<PostTag>()
+            .HasKey(t => new { t.PostId, t.TagId });
 
-		modelBuilder.Entity<PostTag>()
-			.HasOne(pt => pt.Post)
-			.WithMany(p => p.PostTags)
-			.HasForeignKey(pt => pt.PostId)
-			.IsRequired();
+        modelBuilder.Entity<PostTag>()
+            .HasOne(pt => pt.Post)
+            .WithMany(p => p.PostTags)
+            .HasForeignKey(pt => pt.PostId)
+            .IsRequired();
 
-		modelBuilder.Entity<PostTag>()
-			.HasOne(pt => pt.Tag)
-			.WithMany(t => t.PostTags)
-			.HasForeignKey(pt => pt.TagId)
-			.IsRequired();
-	}
+        modelBuilder.Entity<PostTag>()
+            .HasOne(pt => pt.Tag)
+            .WithMany(t => t.PostTags)
+            .HasForeignKey(pt => pt.TagId)
+            .IsRequired();
+    }
 }
 
 public class Blog
 {
-	public int BlogId { get; set; }
-	public string Url { get; set; }
-	public List<Post> Posts { get; set; }
-	public int UserId { get; set; }
-	public User User { get; set; }
+    public int BlogId { get; set; }
+    public string Url { get; set; }
+    public List<Post> Posts { get; set; }
+    public int UserId { get; set; }
+    public User User { get; set; }
 }
 
 public class User
 {
-	public int UserId { get; set; }
-	public string UserName { get; set; }
-	public List<Blog> Blogs { get; set; }
-	public UserAccount UserAccount { get; set; }
+    public int UserId { get; set; }
+    public string UserName { get; set; }
+    public List<Blog> Blogs { get; set; }
+    public UserAccount UserAccount { get; set; }
 }
 
 public class UserAccount
 {
-	public int UserAccountId { get; set; }
-	public string UserAccountName { get; set; }
-	public bool IsValid { get; set; }
-	public User User { get; set; }
+    public int UserAccountId { get; set; }
+    public string UserAccountName { get; set; }
+    public bool IsValid { get; set; }
+    public User User { get; set; }
 }
 
 public class Post
 {
-	public int PostId { get; set; }
-	public string Title { get; set; }
-	public string Content { get; set; }
-	public int BlogId { get; set; }
-	public Blog Blog { get; set; }
-	public List<PostTag> PostTags { get; set; }
+    public int PostId { get; set; }
+    public string Title { get; set; }
+    public string Content { get; set; }
+    public int BlogId { get; set; }
+    public Blog Blog { get; set; }
+    public List<PostTag> PostTags { get; set; }
 }
 
 public class Tag
 {
-	public string TagId { get; set; }
-	public List<PostTag> PostTags { get; set; }
+    public string TagId { get; set; }
+    public List<PostTag> PostTags { get; set; }
 }
 
 public class PostTag
 {
-	public int PostId { get; set; }
-	public Post Post { get; set; }
-	public string TagId { get; set; }
-	public Tag Tag { get; set; }
+    public int PostId { get; set; }
+    public Post Post { get; set; }
+    public string TagId { get; set; }
+    public Tag Tag { get; set; }
 }
-
 ```
 
 > EF CORE只支持部分类型的自动操作，详见[Default Values](https://docs.microsoft.com/zh-cn/ef/core/modeling/relational/default-values)
