@@ -127,55 +127,58 @@ Fluent Api俗名流式接口，其实就是C#中的扩展接口形式
 ```csharp
 protected override void OnModelCreating(ModelBuilder modelBuilder)
 {
-	// 增加实体并使用haskey设置主键
-	modelBuilder.Entity<Blog>().ToTable("Blogs").HasKey(c=>c.BlogId);
-	modelBuilder.Entity<Post>().ToTable("Posts").HasKey(c=>c.PostId);
-	modelBuilder.Entity<AuditEntry>().ToTable("AuditEntries").HasKey(c=>c.AuditEntryId);
+    // 增加实体并使用haskey设置主键
+    modelBuilder.Entity<Blog>().ToTable("Blogs").HasKey(c => c.BlogId);
+    modelBuilder.Entity<Post>().ToTable("Posts").HasKey(c => c.PostId);
+    modelBuilder.Entity<AuditEntry>().ToTable("AuditEntries").HasKey(c => c.AuditEntryId);
 
-	// [Ignore] 排除实体和属性
-	modelBuilder.Ignore<BlogMetadata>();
+    // [Ignore] 排除实体和属性
+    modelBuilder.Ignore<BlogMetadata>();
 
-	// 列名称和类型映射
-	modelBuilder.Entity<Blog>()  
-	    .Property(b => b.BlogId)  
-	    .HasColumnName("blog_id");  
-	  
-	modelBuilder.Entity<Blog>()  
-	    .Property(b => b.Url)  
-	    .HasColumnType("varchar(200)")  
-	    .IsRequired();
-	// 由于各种关系型数据库对于数据类型的名称有所区别，所以自定义数据类型时，一定要参阅目标数据库的数据类型定义。比如PostgreSql支持Json格式，那么就需要添加以下代码
-	modelBuilder.Entity().Property(b => b.SomeStringProperty).HasColumnType("jsonb");
-	
-	// 复合主键  
-	modelBuilder.Entity<Car>().HasKey(c => new { c.State, c.LicensePlate });
-	modelBuilder.Entity<Post>().HasOne(p => p.Blog) .WithMany(b => b.Posts) .HasForeignKey(p => p.BlogId) .HasConstraintName("ForeignKey_Post_Blog");
+    // 列名称和类型映射
+    modelBuilder.Entity<Blog>()
+        .Property(b => b.BlogId)
+        .HasColumnName("blog_id");
 
-	// 备用键
-	// 第一种方法指定Post实体中的BlogUrl属性作为Blog对应Post的外键，指定Blog实体中的Url属性作为备用键（HasPrincipalKey方法将在下文的唯一标识节中讲解），此时Url将被配置为唯一列，扮演BlogId的作用。
-	// 第一种方法
-	modelBuilder.Entity<Post>().HasOne(p => p.Blog) .WithMany(b => b.Posts) .HasForeignKey(p => p.BlogUrl) .HasPrincipalKey(b => b.Url);
-	// 第二种方法
-	modelBuilder.Entity<Car>().HasAlternateKey(c => c.LicensePlate) .HasName("AlternateKey_LicensePlate");
+    modelBuilder.Entity<Blog>()
+        .Property(b => b.Url)
+        .HasColumnType("varchar(200)")
+        .IsRequired();
+    // 由于各种关系型数据库对于数据类型的名称有所区别，所以自定义数据类型时，一定要参阅目标数据库的数据类型定义。
+    // 比如PostgreSql支持Json格式，那么就需要添加以下代码
+    modelBuilder.Entity().Property(b => b.SomeStringProperty).HasColumnType("jsonb");
 
-	// 生成值
-	// 新增实体时自动添加
-	modelBuilder.Entity<Blog>().Property(b => b.Inserted) .ValueGeneratedOnAdd();
-	// 新增或更新实体时添加
-	modelBuilder.Entity<Blog>().Property(b => b.LastUpdated) .ValueGeneratedOnAddOrUpdate();
-	
-	// 默认值
-	// 默认值指的是当用户不手动输入时，使用默认值进行数据库相应列的填充
-	modelBuilder.Entity<Blog>().Property(b => b.Rating) .HasDefaultValue(3);
+    // 复合主键  
+    modelBuilder.Entity<Car>().HasKey(c => new { c.State, c.LicensePlate });
+    modelBuilder.Entity<Post>().HasOne(p => p.Blog).WithMany(b => b.Posts).HasForeignKey(p => p.BlogId)
+        .HasConstraintName("ForeignKey_Post_Blog");
 
-	// 索引, 为一个或多个属性手动建立索引
-	modelBuilder.Entity<Blog>().HasIndex(b => b.Url) .HasName("IX_Url"); 
-	modelBuilder.Entity<Person>().HasIndex(p => new { p.FirstName, p.LastName });
+    // 备用键
+    // 第一种方法指定Post实体中的BlogUrl属性作为Blog对应Post的外键，指定Blog实体中的Url属性作为备用键（HasPrincipalKey方法
+    // 将在下文的唯一标识节中讲解），此时Url将被配置为唯一列，扮演BlogId的作用。
+    // 第一种方法
+    modelBuilder.Entity<Post>().HasOne(p => p.Blog).WithMany(b => b.Posts).HasForeignKey(p => p.BlogUrl)
+        .HasPrincipalKey(b => b.Url);
+    // 第二种方法
+    modelBuilder.Entity<Car>().HasAlternateKey(c => c.LicensePlate).HasName("AlternateKey_LicensePlate");
 
-	// 唯一标识
-	modelBuilder.Entity<Blog>() .HasIndex(b => b.Url) .IsUnique();
+    // 生成值
+    // 新增实体时自动添加
+    modelBuilder.Entity<Blog>().Property(b => b.Inserted).ValueGeneratedOnAdd();
+    // 新增或更新实体时添加
+    modelBuilder.Entity<Blog>().Property(b => b.LastUpdated).ValueGeneratedOnAddOrUpdate();
+
+    // 默认值
+    // 默认值指的是当用户不手动输入时，使用默认值进行数据库相应列的填充
+    modelBuilder.Entity<Blog>().Property(b => b.Rating).HasDefaultValue(3);
+
+    // 索引, 为一个或多个属性手动建立索引
+    modelBuilder.Entity<Blog>().HasIndex(b => b.Url).HasName("IX_Url");
+    modelBuilder.Entity<Person>().HasIndex(p => new { p.FirstName, p.LastName });
+
+    // 唯一标识
+    modelBuilder.Entity<Blog>().HasIndex(b => b.Url).IsUnique();
 }
-
 ```
 
 
