@@ -344,3 +344,162 @@ public class PostTag
 3. 对实体进行一些更改
 4. 调用 SaveChanges 以更新数据库
 5. 释放 DbContext 实例
+
+## Repository :所有仓储类的基类
+```c
+public class Repository<T> : IRepository<T> where T : class  
+{  
+    protected DbContext _context;  
+  
+    public Repository(DbContext dbContext)  
+    {  
+        _context = dbContext;  
+    }  
+  
+    public IEnumerable<T> GetAll()  
+    {  
+        return _context.Set<T>();  
+    }  
+  
+    public virtual async Task<IEnumerable<T>> GetAllAsyn()  
+    {  
+        return await _context.Set<T>().ToListAsync();  
+    }  
+  
+    public virtual T Get(int id)  
+    {  
+        return _context.Set<T>().Find(id);  
+    }  
+  
+    public virtual async Task<T> GetAsync(int id)  
+    {  
+        return await _context.Set<T>().FindAsync(id);  
+    }  
+  
+    public virtual T Add(T t)  
+    {  
+        _context.Set<T>().Add(t);  
+        _context.SaveChanges();  
+        return t;  
+    }  
+  
+    public virtual async Task<T> AddAsyn(T t)  
+    {  
+        _context.Set<T>().Add(t);  
+        await _context.SaveChangesAsync();  
+        return t;  
+    }  
+  
+    public virtual T Find(Expression<Func<T, bool>> match)  
+    {  
+        return _context.Set<T>().SingleOrDefault(match);  
+    }  
+  
+    public virtual async Task<T> FindAsync(Expression<Func<T, bool>> match)  
+    {  
+        return await _context.Set<T>().SingleOrDefaultAsync(match);  
+    }  
+  
+    public IEnumerable<T> FindAll(Expression<Func<T, bool>> match)  
+    {  
+        return _context.Set<T>().Where(match).ToList();  
+    }  
+  
+    public async Task<IEnumerable<T>> FindAllAsync(Expression<Func<T, bool>> match)  
+    {  
+        return await _context.Set<T>().Where(match).ToListAsync();  
+    }  
+  
+    public virtual void Delete(T entity)  
+    {  
+        _context.Set<T>().Remove(entity);  
+        _context.SaveChanges();  
+    }  
+  
+    public virtual async Task<int> DeleteAsyn(T entity)  
+    {  
+        _context.Set<T>().Remove(entity);  
+        return await _context.SaveChangesAsync();  
+    }  
+  
+    public virtual T Update(T t, object key)  
+    {  
+        if (t == null)  
+            return null;  
+        T exist = _context.Set<T>().Find(key);  
+        if (exist != null)  
+        {  
+            _context.Entry(exist).CurrentValues.SetValues(t);  
+            _context.SaveChanges();  
+        }  
+  
+        return exist;  
+    }  
+  
+    public virtual async Task<T> UpdateAsyn(T t, object key)  
+    {  
+        if (t == null)  
+            return null;  
+        T exist = await _context.Set<T>().FindAsync(key);  
+        if (exist != null)  
+        {  
+            _context.Entry(exist).CurrentValues.SetValues(t);  
+            await _context.SaveChangesAsync();  
+        }  
+  
+        return exist;  
+    }  
+  
+    public int Count()  
+    {  
+        return _context.Set<T>().Count();  
+    }  
+  
+    public async Task<int> CountAsync()  
+    {  
+        return await _context.Set<T>().CountAsync();  
+    }  
+  
+    public virtual void Save()  
+    {  
+        _context.SaveChanges();  
+    }  
+  
+    public async virtual Task<int> SaveAsync()  
+    {  
+        return await _context.SaveChangesAsync();  
+    }  
+  
+    public virtual IEnumerable<T> FindBy(Expression<Func<T, bool>> predicate)  
+    {  
+        IEnumerable<T> query = _context.Set<T>().Where(predicate);  
+        return query;  
+    }  
+  
+    public virtual async Task<IEnumerable<T>> FindByAsyn(Expression<Func<T, bool>> predicate)  
+    {  
+        return await _context.Set<T>().Where(predicate).ToListAsync();  
+    }  
+  
+    private bool disposed = false;  
+  
+    protected virtual void Dispose(bool disposing)  
+    {  
+        if (!this.disposed)  
+        {  
+            if (disposing)  
+            {  
+                _context.Dispose();  
+            }  
+  
+            this.disposed = true;  
+        }  
+    }  
+  
+    public void Dispose()  
+    {  
+        Dispose(true);  
+        GC.SuppressFinalize(this);  
+    }  
+}
+```
