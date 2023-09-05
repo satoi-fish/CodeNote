@@ -1,6 +1,9 @@
 Mediator.Net是一个按照Mediator Pattern的开源框架, 通常的程序中会有大量的类, 每个类有不同的封装和参数, 随着一个项目的规模增大, 类之间的互相交互变得极其复杂, 变得难以维护. 所以Mediator Pattern就在于对象之间的通信封装了一个对象, 这个对象就是中介.
-![](https://images0.cnblogs.com/i/175043/201403/271217545939801.png)
-![](https://images0.cnblogs.com/i/175043/201403/271218202027910.png)
+
+![image](https://github.com/satoi-fish/CodeNote/assets/81409285/9eb25fcc-7809-4a34-974c-31fbba85c2b0)
+
+![image](https://github.com/satoi-fish/CodeNote/assets/81409285/3d9aa1f6-ef13-43ea-a2f2-6f377e14b556)
+
 ## **运用mediator**
 首先在controller层使用SendAsync/RequestAsync,随后选择到对应的管道,对应的handler, 执行任务.
 **controller发一个SendAsync**
