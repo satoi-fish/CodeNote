@@ -346,7 +346,7 @@ public class PostTag
 5. 释放 DbContext 实例
 
 ## Repository :所有仓储类的基类
-```c
+```csharp
 public class Repository<T> : IRepository<T> where T : class  
 {  
     protected DbContext _context;  
